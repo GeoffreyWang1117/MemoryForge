@@ -1,0 +1,156 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "memoryforge"
+version = "0.1.0"
+description = "Hierarchical Context Memory System for Multi-Agent LLM Collaboration"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "MemoryForge Team" }
+]
+keywords = [
+    "llm",
+    "memory",
+    "context",
+    "multi-agent",
+    "knowledge-graph",
+    "rag"
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+dependencies = [
+    # Core
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+
+    # LLM Integration
+    "openai>=1.0.0",
+    "anthropic>=0.18.0",
+    "tiktoken>=0.5.0",
+
+    # Vector Database (Qdrant)
+    "qdrant-client>=1.7.0",
+
+    # Graph Database (Neo4j)
+    "neo4j>=5.0.0",
+
+    # Embeddings
+    "sentence-transformers>=2.2.0",
+
+    # Async Support
+    "aiohttp>=3.9.0",
+    "asyncio-throttle>=1.0.0",
+
+    # Data Processing
+    "numpy>=1.24.0",
+    "pandas>=2.0.0",
+
+    # Utilities
+    "python-dotenv>=1.0.0",
+    "structlog>=24.0.0",
+    "rich>=13.0.0",
+    "tenacity>=8.2.0",
+
+    # Web API
+    "fastapi>=0.109.0",
+    "uvicorn[standard]>=0.27.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.12.0",
+    "mypy>=1.8.0",
+    "ruff>=0.1.0",
+    "pre-commit>=3.6.0",
+    "ipython>=8.0.0",
+]
+
+eval = [
+    "matplotlib>=3.8.0",
+    "seaborn>=0.13.0",
+    "scikit-learn>=1.4.0",
+]
+
+# Code analysis - for Python <3.13 only
+code-analysis = [
+    "tree-sitter>=0.21.0,<0.24.0",
+]
+
+all = [
+    "memoryforge[dev,eval]",
+]
+
+[project.scripts]
+memoryforge = "memoryforge.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/your-org/memoryforge"
+Documentation = "https://memoryforge.readthedocs.io"
+Repository = "https://github.com/your-org/memoryforge"
+
+[tool.hatch.build.targets.wheel]
+packages = ["memoryforge"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # Pyflakes
+    "I",      # isort
+    "B",      # flake8-bugbear
+    "C4",     # flake8-comprehensions
+    "UP",     # pyupgrade
+    "ARG",    # flake8-unused-arguments
+    "SIM",    # flake8-simplify
+]
+ignore = [
+    "E501",   # line too long (handled by formatter)
+    "B008",   # do not perform function calls in argument defaults
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["memoryforge"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+plugins = ["pydantic.mypy"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-v --tb=short"
+
+[tool.coverage.run]
+source = ["memoryforge"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+]

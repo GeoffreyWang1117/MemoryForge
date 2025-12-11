@@ -1,0 +1,45 @@
+# MemoryForge Configuration
+# Copy this file to settings.local.yaml for local overrides
+
+app:
+  name: MemoryForge
+  debug: false
+  log_level: INFO
+
+# Qdrant Vector Database
+qdrant:
+  host: localhost
+  port: 6333
+  collection_name: memoryforge_episodic
+  # For Qdrant Cloud:
+  # url: https://your-cluster.qdrant.io
+  # api_key: your-api-key
+
+# Neo4j Graph Database
+neo4j:
+  uri: bolt://localhost:7687
+  username: neo4j
+  password: password
+  database: neo4j
+
+# LLM Settings
+llm:
+  provider: openai  # openai or anthropic
+  embedding_model: all-MiniLM-L6-v2
+  # For OpenAI embeddings:
+  # embedding_model: text-embedding-3-small
+  summarization_model: gpt-4o-mini
+
+# Memory Layer Settings
+memory:
+  working:
+    max_entries: 100
+    max_tokens: 8000
+    importance_threshold: 0.5
+
+  episodic:
+    summary_threshold: 10  # turns before summarization
+    decay_rate: 0.95
+
+  semantic:
+    embedding_dimension: 384
