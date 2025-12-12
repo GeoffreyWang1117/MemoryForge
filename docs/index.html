@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemoryForge - Hierarchical Context Memory System</title>
+    <meta name="description" content="A hierarchical context memory system for multi-agent LLM collaboration">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <span class="logo-icon">🧠</span>
+                <span class="logo-text">MemoryForge</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#architecture">Architecture</a></li>
+                <li><a href="#quickstart">Quick Start</a></li>
+                <li><a href="#api">API</a></li>
+                <li><a href="https://github.com/GeoffreyWang1117/MemoryForge" class="nav-github">GitHub</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">v0.1.0 Alpha</div>
+            <h1 class="hero-title">MemoryForge</h1>
+            <p class="hero-subtitle">Hierarchical Context Memory System for Multi-Agent LLM Collaboration</p>
+            <p class="hero-description">
+                Solve the context window limitation problem with a three-layer memory architecture
+                that intelligently manages, compresses, and retrieves information across long conversations.
+            </p>
+            <div class="hero-buttons">
+                <a href="#quickstart" class="btn btn-primary">Get Started</a>
+                <a href="https://github.com/GeoffreyWang1117/MemoryForge" class="btn btn-secondary">View on GitHub</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-value">278</span>
+                    <span class="stat-label">Tests Passing</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">22K+</span>
+                    <span class="stat-label">Lines of Code</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">3</span>
+                    <span class="stat-label">Memory Layers</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="memory-diagram">
+                <div class="memory-layer working">
+                    <div class="layer-icon">⚡</div>
+                    <div class="layer-name">Working Memory</div>
+                    <div class="layer-desc">Current Context</div>
+                </div>
+                <div class="memory-arrow">↓</div>
+                <div class="memory-layer episodic">
+                    <div class="layer-icon">📚</div>
+                    <div class="layer-name">Episodic Memory</div>
+                    <div class="layer-desc">Session History</div>
+                </div>
+                <div class="memory-arrow">↓</div>
+                <div class="memory-layer semantic">
+                    <div class="layer-icon">🔗</div>
+                    <div class="layer-name">Semantic Memory</div>
+                    <div class="layer-desc">Knowledge Graph</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="problem-section" id="problem">
+        <div class="container">
+            <h2 class="section-title">The Problem</h2>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">📏</div>
+                    <h3>Limited Context Windows</h3>
+                    <p>LLM context windows are finite. During long multi-agent collaboration sessions, early context is lost.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">✂️</div>
+                    <h3>Naive Truncation</h3>
+                    <p>Simple truncation causes critical information loss. Important decisions and facts disappear.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">📦</div>
+                    <h3>Full Retrieval Noise</h3>
+                    <p>Retrieving everything introduces noise and dramatically increases token costs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section" id="features">
+        <div class="container">
+            <h2 class="section-title">Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Three-Layer Architecture</h3>
+                    <p>Working, Episodic, and Semantic memory layers work together to maintain context efficiently.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Importance Scoring</h3>
+                    <p>Automatic importance assessment ensures critical information is never lost.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Semantic Search</h3>
+                    <p>Vector-based retrieval using Qdrant finds relevant memories by meaning, not just keywords.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Knowledge Graph</h3>
+                    <p>Neo4j-powered semantic memory captures code structure and entity relationships.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🗜️</div>
+                    <h3>Smart Compression</h3>
+                    <p>LLM-powered summarization compresses conversations while preserving key facts.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏷️</div>
+                    <h3>Auto-Tagging</h3>
+                    <p>Automatic extraction of keywords, entities, and topics from memory content.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Deduplication</h3>
+                    <p>Intelligent detection and merging of duplicate or similar memories.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Analytics</h3>
+                    <p>Usage statistics, topic clustering, and access pattern analysis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="architecture-section" id="architecture">
+        <div class="container">
+            <h2 class="section-title">Architecture</h2>
+            <div class="arch-diagram">
+                <div class="arch-layer api-layer">
+                    <h4>API Layer</h4>
+                    <div class="arch-components">
+                        <span class="arch-comp">FastAPI</span>
+                        <span class="arch-comp">WebSocket</span>
+                        <span class="arch-comp">Auth</span>
+                        <span class="arch-comp">Rate Limiting</span>
+                    </div>
+                </div>
+                <div class="arch-connector"></div>
+                <div class="arch-layer manager-layer">
+                    <h4>Memory Manager</h4>
+                    <div class="arch-components">
+                        <span class="arch-comp">Query Router</span>
+                        <span class="arch-comp">Consolidation</span>
+                        <span class="arch-comp">Compression</span>
+                    </div>
+                </div>
+                <div class="arch-connector triple"></div>
+                <div class="arch-memories">
+                    <div class="arch-memory working">
+                        <h5>Working Memory</h5>
+                        <p>In-Memory</p>
+                        <ul>
+                            <li>Sliding Window</li>
+                            <li>Importance Scoring</li>
+                            <li>Token Counting</li>
+                        </ul>
+                    </div>
+                    <div class="arch-memory episodic">
+                        <h5>Episodic Memory</h5>
+                        <p>Qdrant Vector DB</p>
+                        <ul>
+                            <li>LLM Summaries</li>
+                            <li>Semantic Search</li>
+                            <li>Time Decay</li>
+                        </ul>
+                    </div>
+                    <div class="arch-memory semantic">
+                        <h5>Semantic Memory</h5>
+                        <p>Neo4j Graph DB</p>
+                        <ul>
+                            <li>Code Entities</li>
+                            <li>Relationships</li>
+                            <li>Knowledge Graph</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="quickstart-section" id="quickstart">
+        <div class="container">
+            <h2 class="section-title">Quick Start</h2>
+            <div class="quickstart-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Clone & Install</h4>
+                        <pre><code>git clone https://github.com/GeoffreyWang1117/MemoryForge.git
+cd memoryforge
+python -m venv .venv
+source .venv/bin/activate
+pip install -e ".[dev]"</code></pre>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Configure Environment</h4>
+                        <pre><code>cp .env.example .env
+# Edit .env with your API keys</code></pre>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Start Services</h4>
+                        <pre><code># Start Qdrant and Neo4j
+docker-compose up -d
+
+# Start the API server
+uvicorn memoryforge.api.app:app --reload</code></pre>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Use the API</h4>
+                        <pre><code>import asyncio
+from memoryforge.memory.working.memory import WorkingMemory
+from memoryforge.core.types import MemoryEntry, MemoryLayer, ImportanceScore
+
+async def main():
+    wm = WorkingMemory(max_entries=100)
+
+    entry = MemoryEntry(
+        content="User wants to build a REST API",
+        layer=MemoryLayer.WORKING,
+        importance=ImportanceScore(base_score=0.8),
+    )
+    await wm.store(entry)
+
+asyncio.run(main())</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="api-section" id="api">
+        <div class="container">
+            <h2 class="section-title">REST API</h2>
+            <div class="api-table-wrapper">
+                <table class="api-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Endpoint</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="method get">GET</span></td>
+                            <td><code>/health</code></td>
+                            <td>Health check endpoint</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method post">POST</span></td>
+                            <td><code>/api/v1/memory/store</code></td>
+                            <td>Store a new memory entry</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method post">POST</span></td>
+                            <td><code>/api/v1/memory/query</code></td>
+                            <td>Query memories by content</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method get">GET</span></td>
+                            <td><code>/api/v1/memory/list</code></td>
+                            <td>List all stored memories</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method delete">DELETE</span></td>
+                            <td><code>/api/v1/memory/{id}</code></td>
+                            <td>Delete a memory by ID</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method get">GET</span></td>
+                            <td><code>/api/v1/memory/stats</code></td>
+                            <td>Get memory statistics</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method post">POST</span></td>
+                            <td><code>/api/v1/persistence/save</code></td>
+                            <td>Persist memories to SQLite</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method get">GET</span></td>
+                            <td><code>/api/v1/persistence/load</code></td>
+                            <td>Load memories from SQLite</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="api-example">
+                <h4>Example: Store a Memory</h4>
+                <pre><code>curl -X POST http://localhost:8000/api/v1/memory/store \
+  -H "Content-Type: application/json" \
+  -d '{
+    "content": "User prefers Python for backend development",
+    "importance": 0.8,
+    "tags": ["preference", "python", "backend"]
+  }'</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <section class="modules-section" id="modules">
+        <div class="container">
+            <h2 class="section-title">Project Structure</h2>
+            <div class="modules-grid">
+                <div class="module-card">
+                    <h4>📦 core/</h4>
+                    <p>Base types, interfaces, and data models</p>
+                </div>
+                <div class="module-card">
+                    <h4>🧠 memory/</h4>
+                    <p>Three-layer memory implementations</p>
+                </div>
+                <div class="module-card">
+                    <h4>🔍 retrieval/</h4>
+                    <p>Query routing and semantic search</p>
+                </div>
+                <div class="module-card">
+                    <h4>💾 storage/</h4>
+                    <p>Qdrant, Neo4j, SQLite backends</p>
+                </div>
+                <div class="module-card">
+                    <h4>🤖 llm/</h4>
+                    <p>Embeddings and summarization</p>
+                </div>
+                <div class="module-card">
+                    <h4>🗜️ compression/</h4>
+                    <p>Memory compression strategies</p>
+                </div>
+                <div class="module-card">
+                    <h4>🏷️ tagging/</h4>
+                    <p>Auto-tagging and extraction</p>
+                </div>
+                <div class="module-card">
+                    <h4>📊 analytics/</h4>
+                    <p>Usage statistics and insights</p>
+                </div>
+                <div class="module-card">
+                    <h4>🔐 api/</h4>
+                    <p>FastAPI REST endpoints</p>
+                </div>
+                <div class="module-card">
+                    <h4>📋 session/</h4>
+                    <p>Multi-session management</p>
+                </div>
+                <div class="module-card">
+                    <h4>🔔 hooks/</h4>
+                    <p>Event system and callbacks</p>
+                </div>
+                <div class="module-card">
+                    <h4>📈 monitoring/</h4>
+                    <p>Health checks and metrics</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="tech-section" id="tech">
+        <div class="container">
+            <h2 class="section-title">Technology Stack</h2>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-icon">🐍</div>
+                    <h4>Python 3.11+</h4>
+                    <p>Modern Python with type hints</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">⚡</div>
+                    <h4>FastAPI</h4>
+                    <p>High-performance async API</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">🔷</div>
+                    <h4>Qdrant</h4>
+                    <p>Vector similarity search</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">🔗</div>
+                    <h4>Neo4j</h4>
+                    <p>Graph database for relations</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">📦</div>
+                    <h4>Pydantic</h4>
+                    <p>Data validation and settings</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">🐳</div>
+                    <h4>Docker</h4>
+                    <p>Containerized deployment</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-icon">🧠</span>
+                    <span class="logo-text">MemoryForge</span>
+                </div>
+                <p class="footer-description">
+                    Hierarchical Context Memory System for Multi-Agent LLM Collaboration
+                </p>
+                <div class="footer-links">
+                    <a href="https://github.com/GeoffreyWang1117/MemoryForge">GitHub</a>
+                    <a href="https://github.com/GeoffreyWang1117/MemoryForge/issues">Issues</a>
+                    <a href="https://github.com/GeoffreyWang1117/MemoryForge/blob/main/LICENSE">License</a>
+                </div>
+                <p class="footer-copyright">MIT License &copy; 2024 MemoryForge</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
