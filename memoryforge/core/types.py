@@ -5,7 +5,7 @@ from enum import Enum
 from typing import Any
 from uuid import UUID, uuid4
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_serializer
 
 
 def utcnow() -> datetime:
@@ -46,13 +46,17 @@ class ImportanceScore(BaseModel):
 class MemoryEntry(BaseModel):
     """A single memory entry in the system."""
 
-    model_config = ConfigDict(
-        ser_json_timedelta="iso8601",
-        json_encoders={
-            datetime: lambda v: v.isoformat(),
-            UUID: lambda v: str(v),
-        },
-    )
+    model_config = ConfigDict(ser_json_timedelta="iso8601")
+
+    @field_serializer("id", "source_id")
+    @classmethod
+    def serialize_uuid(cls, v: UUID | None) -> str | None:
+        return str(v) if v is not None else None
+
+    @field_serializer("created_at", "updated_at")
+    @classmethod
+    def serialize_datetime(cls, v: datetime) -> str:
+        return v.isoformat()
 
     id: UUID = Field(default_factory=uuid4)
     content: str = Field(description="The actual memory content")

@@ -116,7 +116,10 @@ class WorkingMemory(BaseMemory):
 
     async def delete(self, entry_id: str) -> bool:
         """Delete an entry by ID."""
-        uuid_id = UUID(entry_id)
+        try:
+            uuid_id = UUID(entry_id)
+        except ValueError:
+            return False
 
         if uuid_id in self._pinned:
             del self._pinned[uuid_id]

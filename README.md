@@ -117,11 +117,115 @@ NEO4J_PASSWORD=password
 - **Retrieval Accuracy**: Precision/recall of semantic search
 - **Token Efficiency**: Compression ratio vs. full context
 
+## REST API
+
+Start the API server:
+
+```bash
+# Using uvicorn
+uvicorn memoryforge.api.app:app --reload --port 8000
+
+# Or using the Makefile
+make serve
+```
+
+### API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/health` | Health check |
+| POST | `/api/v1/memory/store` | Store a memory |
+| POST | `/api/v1/memory/query` | Query memories |
+| GET | `/api/v1/memory/list` | List all memories |
+| DELETE | `/api/v1/memory/{id}` | Delete a memory |
+| GET | `/api/v1/memory/stats` | Memory statistics |
+| POST | `/api/v1/persistence/save` | Save to SQLite |
+| GET | `/api/v1/persistence/load` | Load from SQLite |
+
+### Example API Usage
+
+```bash
+# Store a memory
+curl -X POST http://localhost:8000/api/v1/memory/store \
+  -H "Content-Type: application/json" \
+  -d '{"content": "User prefers Python", "importance": 0.8, "tags": ["preference"]}'
+
+# Query memories
+curl -X POST http://localhost:8000/api/v1/memory/query \
+  -H "Content-Type: application/json" \
+  -d '{"query": "python", "top_k": 5}'
+
+# Get statistics
+curl http://localhost:8000/api/v1/memory/stats
+```
+
+## CLI Commands
+
+MemoryForge includes a rich CLI for interactive use:
+
+```bash
+# Run the CLI
+python -m memoryforge.cli
+
+# Available commands:
+#   analyze <path>    - Analyze a codebase and extract entities
+#   store <content>   - Store a memory entry
+#   query <text>      - Query memories
+#   list              - List all memories
+#   stats             - Show memory statistics
+#   export <format>   - Export memories (json/csv/markdown)
+#   session           - Manage sessions
+#   help              - Show help
+```
+
+### CLI Examples
+
+```bash
+# Analyze your codebase
+python -m memoryforge.cli analyze ./src --docs
+
+# Store a memory
+python -m memoryforge.cli store "Important: Use async/await for all IO"
+
+# Query memories
+python -m memoryforge.cli query "async patterns"
+
+# Export to JSON
+python -m memoryforge.cli export json --output memories.json
+```
+
+## Features
+
+### Memory Management
+- **Auto-tagging**: Automatic extraction of keywords, entities, and topics
+- **Importance Scoring**: Rule-based and LLM-based importance assessment
+- **Deduplication**: Detect and merge duplicate memories
+- **Compression**: Multiple strategies for memory compression
+
+### Session Management
+- Create, switch, and archive sessions
+- Import/export session data
+- Session-scoped memory isolation
+
+### Analytics
+- Memory usage statistics
+- Topic clustering
+- Access pattern analysis
+- Retention metrics
+
+### Monitoring
+- Health checks for all components
+- Prometheus-compatible metrics
+- Detailed logging with structlog
+
 ## Development
 
 ```bash
 # Run tests
 pytest tests/
+
+# Run tests with coverage
+pytest tests/ --cov=memoryforge --cov-report=html
 
 # Type checking
 mypy memoryforge
@@ -131,6 +235,28 @@ ruff check memoryforge
 
 # Format code
 ruff format memoryforge
+```
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        API Layer                            │
+│              (FastAPI + WebSocket + Auth)                   │
+└─────────────────────────────────────────────────────────────┘
+                              │
+┌─────────────────────────────────────────────────────────────┐
+│                    Memory Manager                           │
+│              (Query Router + Consolidation)                 │
+└─────────────────────────────────────────────────────────────┘
+                              │
+        ┌─────────────────────┼─────────────────────┐
+        │                     │                     │
+┌───────▼───────┐    ┌────────▼────────┐    ┌──────▼──────┐
+│    Working    │    │    Episodic     │    │   Semantic  │
+│    Memory     │    │    Memory       │    │   Memory    │
+│  (In-Memory)  │    │   (Qdrant)      │    │  (Neo4j)    │
+└───────────────┘    └─────────────────┘    └─────────────┘
 ```
 
 ## License
